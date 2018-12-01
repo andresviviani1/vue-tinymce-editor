@@ -55,19 +55,19 @@
     import 'tinymce/plugins/textcolor';
     import 'tinymce/plugins/toc';
     import 'tinymce/plugins/visualchars';
-    
+
     import 'tinymce/skins/lightgray/skin.min.css'
-   
+
     export default {
         name: 'tinymce',
-        props: { 
+        props: {
                 id : {
                     type : String,
                     required : true
                 },
                 htmlClass : { default : '', type : String},
                 value : { default : '' },
-                plugins : { default : function(){ 
+                plugins : { default : function(){
                                     return [
                                         'advlist autolink lists link image charmap print preview hr anchor pagebreak',
                                         'searchreplace wordcount visualblocks visualchars code fullscreen',
@@ -88,14 +88,18 @@
                 cTinyMce : null,
                 checkerTimeout: null,
                 isTyping : false
-            }; 
+            };
         },
         mounted(){
             this.content = this.value;
-            this.init();  
+            this.init();
         },
         beforeDestroy () {
-            this.editor.destroy();
+            try{
+              this.editor.destroy();
+            }catch(e){
+              return
+            }
         },
         watch: {
             value : function (newValue){
